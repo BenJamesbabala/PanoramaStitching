@@ -4,26 +4,26 @@ import numpy as np
 import os
 
 
-def matchfeatures(img1, img2, nfeatures=1000):
+def matchfeatures(src, tgt, nfeatures=1000):
     orb = cv2.ORB_create(nfeatures=nfeatures, scoreType=cv2.ORB_FAST_SCORE)
-    kp1, des1 = orb.detectAndCompute(img1, None)
-    kp2, des2 = orb.detectAndCompute(img2, None)
+    kp1, des1 = orb.detectAndCompute(src, None)
+    kp2, des2 = orb.detectAndCompute(tgt, None)
 
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
     matches = bf.match(des1, des2)
     matches = sorted(matches, key=lambda x: x.distance)
 
-    net_img = cv2.drawMatches(img1, kp1, img2, kp2,
-                              matches[:50], None, flags=2)
-    cv2.imshow("Keypoint Matching", net_img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    net_img = cv2.drawMatches(src, kp1, tgt, kp2,
+                              matches[:20], None, flags=2)
+    # cv2.imshow("Keypoint Matching", net_img)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
     common_pixels = []
     for match in matches:
         x1y1 = kp1[match.queryIdx].pt
         x2y2 = kp2[match.trainIdx].pt
-        pixel = list(map(int, list(x1y1) + list(x1y1) + [match.distance]))
+        pixel = list(map(int, list(x1y1) + list(x2y2) + [match.distance]))
         common_pixels.append(pixel)
 
     return np.array(common_pixels)

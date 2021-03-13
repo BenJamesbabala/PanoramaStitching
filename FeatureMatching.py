@@ -45,6 +45,8 @@ def matchfeatures(src, tgt, nfeatures=1000, verbose=False):
         feature = list(map(int, list(x1y1) + list(x2y2) + [match.distance]))
         common_points.append(feature)
 
+    print(f"Feature Matching Results: POC(s) found: {len(common_points)}")
+
     return np.array(common_points)
 
 

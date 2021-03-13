@@ -16,7 +16,7 @@ def warp(src, homography, imgout, y_offset, x_offset):
         t = homography
         homography = np.eye(3)
         for i in range(len(t)):
-            homography = homography@t[i]
+            homography = t[i]@homography
         pts = np.array([[0, 0, 1], [src_w, src_h, 1],
                         [src_w, 0, 1], [0, src_h, 1]]).T
         borders = (homography@pts.reshape(3, -1)).reshape(pts.shape)
@@ -45,7 +45,7 @@ def warp(src, homography, imgout, y_offset, x_offset):
     return imgout, mask
 
 
-def laplacepyramids(images, masks, n=4):
+def laplacepyramids(images, masks, n=3):
     assert(images[0].shape[0] % n == 0 and images[0].shape[1] % n == 0)
     g_pyramids = {}
     l_pyramids = {}
@@ -137,18 +137,16 @@ def laplacepyramids(images, masks, n=4):
 
 
 if __name__ == '__main__':
-    IMG_DIR = r'C:\Users\jaina\Google Drive\Class\6th Sem\CV\Assignment1\PanoramaStitching\Images_Asgnmt3_1\I2'
-    N = 10
+    IMG_DIR = r'C:\Users\jaina\Google Drive\Class\6th Sem\CV\Assignment1\PanoramaStitching\Images_Asgnmt3_1\I5'
+    N = 5
     Images = []
     for root, dirs, files in os.walk(IMG_DIR):
-        for i in range(min(N, len(files))):
+        for i in range(N):
             img = cv2.imread(os.path.join(IMG_DIR, files[i]))
-            img = cv2.resize(img, (400, 300))
+            img = cv2.resize(img, (480, 360))
             Images.append(img)
 
-    N = len(files)
-
-    H, W, C = 2*800, N*600, 3
+    H, W, C = np.array(img.shape)*[3, N, 1]
     img_f = np.zeros((H, W, C))
 
     img_outputs = []
@@ -167,7 +165,8 @@ if __name__ == '__main__':
             # right
             poc = matchfeatures(Images[N//2+i], Images[N//2+(i-1)])
             right_H.append(ransac(poc))
-            img, mask = warp(Images[N//2+i], right_H, img_f.copy(), H//2, W//2)
+            img, mask = warp(Images[N//2+i], right_H[::-1],
+                             img_f.copy(), H//2, W//2)
             img_outputs.append(img)
             masks.append(mask)
         except:
@@ -177,7 +176,8 @@ if __name__ == '__main__':
             # left
             poc = matchfeatures(Images[N//2-i], Images[N//2-(i-1)])
             left_H.append(ransac(poc))
-            img, mask = warp(Images[N//2-i], left_H, img_f.copy(), H//2, W//2)
+            img, mask = warp(Images[N//2-i], left_H[::-1],
+                             img_f.copy(), H//2, W//2)
             img_outputs.append(img)
             masks.append(mask)
         except:

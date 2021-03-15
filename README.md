@@ -14,11 +14,7 @@ In this assignment, we try to implement the paper ["Automatic panoramic image st
 - [Background](#background)
 - [Dataset](#dataset)
 - [Technologies](#technologies)
-- [Mathmatical Aspects](#mathematicalaspects)
-  1. [Feature Detections](#1.-Common-Feature-Detection)
-  2. [Homography](#2.-Calculating-Homography)
-  3. [Warping](#3.-Warping-of-Images)
-  4. [Blending](#4.-Blending-of-Images)
+- [Mathmatical Aspects](#mathematical-aspects)
 - [Setup](#setup)
 - [Results](#results)
 - [References](#references)
@@ -52,7 +48,7 @@ Other technologies used
 
 **Feature Matching:** Using Brute Force Matcher, similiar features that are extracted using the feature extractor are matched. This gives us pair of cordinates of similar features, corresponding to each image. 
 
-The code can be found [here](/FeatureMatching.py$L6).
+The code can be found [here](/FeatureMatching.py#L6).
 
 ### 2. Calculating Homography
 
@@ -76,7 +72,7 @@ The code can be found [here](/mywarp.py#L67).
 
 One can simply install the requirements for the program using ```pip install -r requirements.txt```
 
-The main fail is [mywrap.py](/mywrap.py).
+The main fail is [mywarp.py](/mywarp.py).
 One can change the ```IMG_DIR``` in the main function as per there convenience.
 
 NOTE: Sometimes RANSAC can misbehave for certain scenes, one can change number of iterations for RANSAC by increasing ```max_iterations``` in the following [line](/Homography_Ransac.py#L31).
@@ -96,12 +92,12 @@ Number of pictures: 6
 **Using Inbuilt homography:**
 
 <p align="center">
-  <img width="500" src="Results/1_inbuilt.jpg">
+  <img width="1000" src="Results/1_inbuilt.jpg">
 </p>
 
 **Using Ransac homograpy:**
 <p align="center">
-  <img width="500" src="Results/1.jpg">
+  <img width="1000" src="Results/1.jpg">
 </p>
 
 ### Scene 2
@@ -110,12 +106,12 @@ Number of pictures: 5
 **Using Inbuilt homography:**
 
 <p align="center">
-  <img width="500" src="Results/2_inbuilt.jpg">
+  <img width="1000" src="Results/2_inbuilt.jpg">
 </p>
 
 **Using Ransac homograpy:**
 <p align="center">
-  <img width="500" src="Results/2.jpg">
+  <img width="1000" src="Results/2.jpg">
 </p>
 
 ### Scene 3
@@ -124,12 +120,12 @@ Number of pictures: 5
 **Using Inbuilt homography:**
 
 <p align="center">
-  <img width="500" src="Results/3_inbuilt.jpg">
+  <img width="1000" src="Results/3_inbuilt.jpg">
 </p>
 
 **Using Ransac homograpy:**
 <p align="center">
-  <img width="500" src="Results/3.jpg">
+  <img width="1000" src="Results/3.jpg">
 </p>
 
 ### Scene 4
@@ -138,12 +134,12 @@ Number of pictures: 5
 **Using Inbuilt homography:**
 
 <p align="center">
-  <img width="500" src="Results/4_inbuilt.jpg">
+  <img width="1000" src="Results/4_inbuilt.jpg">
 </p>
 
 **Using Ransac homograpy:**
 <p align="center">
-  <img width="500" src="Results/4.jpg">
+  <img width="1000" src="Results/4.jpg">
 </p>
 
 ### Scene 5
@@ -152,12 +148,12 @@ Number of pictures: 5
 **Using Inbuilt homography:**
 
 <p align="center">
-  <img width="500" src="Results/5_inbuilt.jpg">
+  <img width="1000" src="Results/5_inbuilt.jpg">
 </p>
 
 **Using Ransac homograpy:**
 <p align="center">
-  <img width="500" src="Results/5.jpg">
+  <img width="1000" src="Results/5.jpg">
 </p>
 
 ### Scene 6
@@ -166,10 +162,17 @@ Number of pictures: 5
 **Using Inbuilt homography:**
 
 <p align="center">
-  <img width="500" src="Results/6_inbuilt.jpg">
+  <img width="1000" src="Results/6_inbuilt.jpg">
 </p>
 
 **Using Ransac homograpy:**
 <p align="center">
-  <img width="500" src="Results/6.jpg">
+  <img width="1000" src="Results/6.jpg">
 </p>
+
+## References
+
+1. Brown, Matthew, and David G. Lowe. ”Automatic panoramic image stitching using invariant features.” International journal of computer vision 74.1 (2007): 59-73.
+2. Hartley, Richard, and Andrew Zisserman. Multiple view geometry in computer vision. Cambridge university press, 2003.
+3. Szeliski, R. (2007). Image alignment and stitching A tutorial in Foundations and Trends R in Computer Graphics and Vision, 2(1), 1-104.
+4. https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_imgproc/py_pyramids/py_pyramids.html

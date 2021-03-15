@@ -1,11 +1,10 @@
-import cv2 as cv
+import os
 import cv2
 import numpy as np
-import os
-from FeatureMatching import matchfeatures
-from Homography_Ransac import ransac
-import matplotlib.pyplot as plt
 from tqdm import tqdm
+
+from Homography_Ransac import ransac
+from FeatureMatching import matchfeatures
 
 
 def warp(src, homography, imgout, y_offset, x_offset):
@@ -20,7 +19,7 @@ def warp(src, homography, imgout, y_offset, x_offset):
     """
 
     # Getting the shapes
-    h, w, c = imgout.shape
+    H, W, C = imgout.shape
     src_h, src_w, src_c = src.shape
 
     # Checking if image needs to be warped or not
@@ -65,7 +64,7 @@ def warp(src, homography, imgout, y_offset, x_offset):
     return imgout, mask
 
 
-def laplacepyramids(images, masks, n=5):
+def blend(images, masks, n=5):
     """
     Image blending using Image Pyramids. We calculate Gaussian Pyramids using OpenCV.add()
     Once we have the Gaussian Pyramids, we take their differences to find Laplacian Pyramids
@@ -85,6 +84,8 @@ def laplacepyramids(images, masks, n=5):
     # Defining dictionaries for various pyramids
     g_pyramids = {}
     l_pyramids = {}
+
+    H, W, C = images[0].shape
 
     # Calculating pyramids for various images before hand
     for i in range(len(images)):
@@ -110,6 +111,7 @@ def laplacepyramids(images, masks, n=5):
     common_pyramids = [l_pyramids[0][i].copy()
                        for i in range(len(l_pyramids[0]))]
 
+    ls_ = None
     # We take one image, blend it with our final image, and then repeat for
     # n images
     for i in range(1, len(images)):
@@ -168,8 +170,8 @@ def laplacepyramids(images, masks, n=5):
 
 if __name__ == '__main__':
 
-    IMG_DIR = r'Images_Asgnmt3_1\I3'    # Path of img directory
-    N = 5                               # Number of IMages to be matched
+    IMG_DIR = r'Images_Asgnmt3_1\I5'    # Path of img directory
+    N = 5                               # Number of Images to be matched
 
     Images = []
     for root, dirs, files in os.walk(IMG_DIR):
@@ -227,7 +229,7 @@ if __name__ == '__main__':
 
     # Blending all the images together
     print("Please wait, Image Blending...")
-    uncropped = laplacepyramids(img_outputs, masks)
+    uncropped = blend(img_outputs, masks)
 
     print("Image Blended, Final Cropping")
     # Creating a mask of the panaroma

@@ -1,11 +1,11 @@
-import cv2 as cv
-import cv2
-import numpy as np
 import os
-from FeatureMatching import matchfeatures
-from itertools import combinations
-from tqdm import tqdm
+import cv2
 import random
+import numpy as np
+from tqdm import tqdm
+
+from itertools import combinations
+from FeatureMatching import matchfeatures
 
 
 def homography(poc):

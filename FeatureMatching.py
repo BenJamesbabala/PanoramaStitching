@@ -1,6 +1,6 @@
+import os
 import cv2
 import numpy as np
-import os
 
 
 def matchfeatures(src, tgt, nfeatures=1000, verbose=False):
